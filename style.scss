@@ -1,0 +1,104 @@
+body{
+    background: linear-gradient(to right, #054688, #D31589);
+    height: 100vh;
+    color: white;
+    overflow: hidden;
+    .main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .card{
+            width: 25%;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 20px;
+            color: black;
+            position: relative;
+            top: 20rem;
+
+            h1{
+                text-align: center;
+            }
+        }
+
+        form{
+            display: flex;
+            background-color: #EDEEF0;
+            border-radius: 29px;
+            height: 66px;
+           // border: solid;
+            .input-container{
+                width: 70%;
+                height: 100%;
+            }
+            .submit-container{
+                width: 30%;
+            }
+            button{
+                background-color: #FF5642;
+                color: white;
+                width: 100%;
+                height: 100%;
+                border-radius: 50px;
+            }
+            input{
+                border: none;
+                outline: none;
+                // border-radius: 29px;
+                border-top-left-radius: 29px;
+                border-bottom-left-radius: 20px;
+                padding-left: 5%;
+                width: 100%;
+                height: 100%;
+                background-color: transparent;
+            }
+        }
+        .tasks{
+            margin: 6%;
+        }
+
+        .task{
+            display: flex;
+            justify-content: space-between;
+            margin: 4%;
+            align-items: center;
+
+            .edit_delete_container{
+                display: flex;
+            }
+            
+            .actual_task{
+
+                display: flex;
+                align-items: center;
+
+            }
+
+            ion-icon {
+                color: red;
+                font-size: 28px;
+              }
+            .cancel_container{
+                ion-icon {
+                    color: red;
+                    font-size: 28px;
+                  }
+            }
+            
+        }
+        
+        .complete{
+            text-decoration: line-through;
+            ion-icon {
+                color: green;
+            }
+        }
+        .edit_container{
+            ion-icon {
+                color: rgb(137, 131, 131);
+            }
+        }
+    }
+}
