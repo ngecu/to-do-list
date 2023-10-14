@@ -1,104 +1,108 @@
-var my_tasks = [
-    { activity: "Check emails and prioritize tasks", complete: false },
-    { activity: "Attend meetings and complete projects", complete: true },
-];
+var taskInput = document.getElementById("new-task"); 
+var addButton = document.getElementsByTagName("button")[0]; 
+var incompleteTasksHolder = document.getElementById("incomplete-tasks");
+var completedTasksHolder = document.getElementById("completed-tasks"); 
 
 
-var tasksContainer = document.querySelector('.tasks');
-const taskForm = document.querySelector('#task-form');
-const taskInput = document.querySelector('#task-input');
+var createNewTaskElement = function(taskString) {
+
+	var listItem = document.createElement("li");
+
+	var checkBox = document.createElement("input"); 
+	var label = document.createElement("label");
+	var editInput = document.createElement("input"); // text
+	var editButton = document.createElement("button");
+	var deleteButton = document.createElement("button");
+
+	checkBox.type = "checkbox";
+	editInput.type = "text";
+
+	editButton.innerText = "Edit";
+	editButton.className = "edit";
+	deleteButton.innerText = "Delete";
+	deleteButton.className = "delete";
+
+	label.innerText = taskString;
+
+	listItem.appendChild(checkBox);
+	listItem.appendChild(label);
+	listItem.appendChild(editInput);
+	listItem.appendChild(editButton);
+	listItem.appendChild(deleteButton);
+
+	return listItem;
+}
 
 
-function addTaskToDOM(taskText) {
+var addTask = function() {
+	console.log("Add task...");
+	var listItem = createNewTaskElement(taskInput.value);
+	incompleteTasksHolder.appendChild(listItem);
+	bindTaskEvents(listItem, taskCompleted);
 
-    const newTask = { activity: taskText, complete: false };
+	taskInput.value = "";
+}
 
-    // Add the task to the array
-    my_tasks.push(newTask);
+var editTask = function() {
+	console.log("Edit task...");
 
+	var listItem = this.parentNode;
 
-    var taskElement = document.createElement('div');
-    taskElement.classList.add('task');
-    if (newTask.complete) {
-        taskElement.classList.add('complete');
-    }
+	var editInput = listItem.querySelector("input[type=text");
+	var label = listItem.querySelector("label");
 
-    var actualTaskElement = document.createElement('div');
-    actualTaskElement.classList.add('actual_task');
-    if (newTask.complete) {
-    actualTaskElement.innerHTML = `<ion-icon name="checkmark-done-circle"></ion-icon> ${newTask.activity}`;
-    }
-    else{
-        actualTaskElement.innerHTML = `<ion-icon name="alert-circle"></ion-icon> ${newTask.activity}`;
-    }
- 
-    var editDeleteContainerElement = document.createElement('div');
-    editDeleteContainerElement.classList.add('edit_delete_container');
+	var containsClass = listItem.classList.contains("editMode");
 
-    var editContainerElement = document.createElement('div');
-    editContainerElement.classList.add('edit_container');
-    editContainerElement.innerHTML = '<ion-icon name="create"></ion-icon>';
+	if (containsClass) {
+		label.innerText = editInput.value;
+	} else {
+		editInput.value = label.innerText;
+	}
 
-    var cancelContainerElement = document.createElement('div');
-    cancelContainerElement.classList.add('cancel_container');
-    cancelContainerElement.innerHTML = '<ion-icon name="close-circle"></ion-icon>';
-
-    editDeleteContainerElement.appendChild(editContainerElement);
-    editDeleteContainerElement.appendChild(cancelContainerElement);
-    taskElement.appendChild(actualTaskElement);
-    taskElement.appendChild(editDeleteContainerElement);
-
-    tasksContainer.appendChild(taskElement);
-
+	listItem.classList.toggle("editMode");
 
 }
 
-taskForm.addEventListener('submit', (event) =>{
-    event.preventDefault(); 
-    const taskText = taskInput.value.trim(); 
+var deleteTask = function() {
+	console.log("Delete task...");
+	var listItem = this.parentNode;
+	var ul = listItem.parentNode;
 
-    if (taskText !== '') {
-        addTaskToDOM(taskText);
-        console.log(my_tasks);
-        taskInput.value = '';
-    }
-});
+	ul.removeChild(listItem);
+}
 
-my_tasks.forEach( (task) =>{
+var taskCompleted = function() {
+	console.log("Task complete...");
+	var listItem = this.parentNode;
+	completedTasksHolder.appendChild(listItem);
+	bindTaskEvents(listItem, taskIncomplete);
+}
 
-    var taskElement = document.createElement('div');
-    taskElement.classList.add('task');
-    if (task.complete) {
-        taskElement.classList.add('complete');
-    }
+var taskIncomplete = function() {
+	console.log("Task incomplete...");
+	var listItem = this.parentNode;
+	incompleteTasksHolder.appendChild(listItem);
+	bindTaskEvents(listItem, taskCompleted);
+}
 
-    var actualTaskElement = document.createElement('div');
-    actualTaskElement.classList.add('actual_task');
-    if (task.complete) {
-    actualTaskElement.innerHTML = `<ion-icon name="checkmark-done-circle"></ion-icon> ${task.activity}`;
-    }
-    else{
-        actualTaskElement.innerHTML = `<ion-icon name="alert-circle"></ion-icon> ${task.activity}`;
-    }
- 
-    var editDeleteContainerElement = document.createElement('div');
-    editDeleteContainerElement.classList.add('edit_delete_container');
+var bindTaskEvents = function(taskListItem, checkBoxEventHandler) {
+	console.log("Bind list item events");
+	var checkBox = taskListItem.querySelector("input[type=checkbox]");
+	var editButton = taskListItem.querySelector("button.edit");
+	var deleteButton = taskListItem.querySelector("button.delete");
 
-    var editContainerElement = document.createElement('div');
-    editContainerElement.classList.add('edit_container');
-    editContainerElement.innerHTML = '<ion-icon name="create"></ion-icon>';
+	editButton.onclick = editTask;
 
-    var cancelContainerElement = document.createElement('div');
-    cancelContainerElement.classList.add('cancel_container');
-    cancelContainerElement.innerHTML = '<ion-icon name="close-circle"></ion-icon>';
+	deleteButton.onclick = deleteTask;
 
-    editDeleteContainerElement.appendChild(editContainerElement);
-    editDeleteContainerElement.appendChild(cancelContainerElement);
-    taskElement.appendChild(actualTaskElement);
-    taskElement.appendChild(editDeleteContainerElement);
+	checkBox.onchange = checkBoxEventHandler;
+}
+addButton.addEventListener("click", addTask);
 
-    tasksContainer.appendChild(taskElement);
-});
+for (var i = 0; i < incompleteTasksHolder.children.length; i++) {
+	bindTaskEvents(incompleteTasksHolder.children[i], taskCompleted);
+}
 
-
-
+for (var i = 0; i < completedTasksHolder.children.length; i++) {
+	bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+}
