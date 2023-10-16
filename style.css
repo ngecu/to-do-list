@@ -1,16 +1,28 @@
 body {
-  background: #fff;
   color: #333;
   font-family: Lato, sans-serif;
-  background-color: #e4e4e4;
-}
+  background: linear-gradient(to right, #054688, #D31589);}
 
+  .edit{
+    background-color: orange;
+    color: white;
+    padding: 2%;
+    border-radius: 20px;
+
+  }
+  .delete{
+    background-color: red;
+    color: white;
+    padding: 2%;
+    border-radius: 20px;
+
+  }
 .container {
   display: block;
-  width: 400px;
+  width: 600px;
   margin: 10px auto 100px;
   background-color: #fff;
-  padding: 0px 10px 10px 10px;
+  padding: 20px;
   border-radius: 10px;
 }
 
@@ -45,7 +57,7 @@ button {
   border: 0px;
   color: #888;
   font-size: 15px;
-  width: 60px;
+  /* width: 60px; */
   margin: 10px 0 0;
   font-family: Lato, sans-serif;
   cursor: pointer;
@@ -129,6 +141,17 @@ li > .delete:hover {
   color: #888;
 }
 
+#completed-tasks .edit {
+  display: none;
+}
+
+.add-btn{
+  background: greenyellow;
+color: white;
+padding: 10px;
+border-radius: 20px;
+margin: 0;
+}
 ul li input[type=text] {
   display: none;
 }
