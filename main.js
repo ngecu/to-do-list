@@ -2,6 +2,7 @@ var taskInput = document.getElementById("new-task");
 var addButton = document.getElementsByTagName("button")[0]; 
 var incompleteTasksHolder = document.getElementById("incomplete-tasks");
 var completedTasksHolder = document.getElementById("completed-tasks"); 
+var tasks = ["Pay Bills","Go Shopping"]
 
 
 var createNewTaskElement = function(taskString) {
@@ -10,7 +11,7 @@ var createNewTaskElement = function(taskString) {
 
 	var checkBox = document.createElement("input"); 
 	var label = document.createElement("label");
-	var editInput = document.createElement("input"); // text
+	var editInput = document.createElement("input"); 
 	var editButton = document.createElement("button");
 	var deleteButton = document.createElement("button");
 
@@ -33,6 +34,9 @@ var createNewTaskElement = function(taskString) {
 	return listItem;
 }
 
+tasks.forEach(element => {
+	createNewTaskElement(element)
+});
 
 var addTask = function() {
 	console.log("Add task...");
